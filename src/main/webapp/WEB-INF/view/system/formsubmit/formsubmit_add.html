@@ -1,0 +1,41 @@
+
+@layout("/common/_container.html"){
+<!-- PAGE CONTENT BEGINS -->
+<form data-url="${ctxPath}/${code}/save" method="post" class="form-horizontal" role="form">
+
+    <!-- 表单 -->
+    @ var _table="blade_formsubmit";
+    @ var _col=[
+    @			  {name:"推荐人编号",index:"recommend_num", type:"text",newline:true,length:3},
+    @			  {name:"服务中心编号",index:"service_center", type:"text",newline:false,length:3},
+    @			  {name:"登录用户名",index:"user_name", type:"text",newline:true,length:3},
+    @			  {name:"登录密码",index:"password", type:"password",newline:false,length:3},
+    @			  {name:"安全密码",index:"secure_pwd", type:"password",newline:true,length:3},
+    @			  {name:"真实姓名",index:"real_name", type:"text",newline:false,length:3}
+    @			  //{name:"银行卡类型",index:"articlesource", type:"text",newline:true,length:3,required:"required"},
+    @			  //{name:"银行卡账号信息",index:"author", type:"text",newline:false,length:3,required:"required"},
+    @			  //{name:"开户行",index:"looknumber", type:"text",newline:true,length:3,required:"required"},
+    @			  //{name:"开户行地址",index:"maincontent", type:"text",newline:false,length:3,required:"required"},
+    @			  //{name:"手机号码",index:"looknumber", type:"number",newline:true,length:3,required:"required"},
+    @			  //{name:"QQ号",index:"looknumber", type:"number",newline:false,length:3,required:"required"},
+    @			  //{name:"微信号",index:"looknumber", type:"text",newline:true,length:3,required:"required"},
+    @			  //{name:"收货人姓名",index:"looknumber", type:"text",newline:false,length:3,required:"required"},
+    @			  //{name:"收货人地址",index:"looknumber", type:"text",newline:true,length:3,required:"required"},
+    @			  //{name:"选购商品",index:"looknumber", type:"text",newline:false,length:3,required:"required"}
+    @		   ];
+    @ include("/common/_curd/_add.html",{"col":_col,"table":_table}){}
+    <!-- 按钮 -->
+
+    @ include("/common/_curd/_btn.html",{btn_save:"提交报单",btn_close:"关闭"}) {}
+
+</form>
+
+<script type="text/javascript">
+    $(function(){
+        $("#btn_save").bind("click",function(){
+            setTimeout(function(){parent.initZtree();}, 499);
+        });
+    });
+</script>
+
+@}

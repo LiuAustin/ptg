@@ -1,0 +1,96 @@
+@layout("/common/_container.html"){
+<script type="text/javascript">
+    var ctx="${ctxPath}";
+    var grid_selector = "#grid-table";
+    var pager_selector = "#grid-pager";
+    $(function(){
+        initGrid();
+        initMenuBtn("btns","${code}");
+    });
+    /**
+     *用于执行按钮加载事件结束后操作的ajax请求(否则会导致回调覆盖,也可以使用 async:false)
+     */
+    function doOther(){
+        initZtree();
+    }
+    function initGrid(){
+        var grid_url = ctx+"/${code}/list";//查询列表接口
+        var _colnames=[ "序列","登录用户名","提现积分"
+            ,"申请时间","审核人","审核时间","审核状态"
+        ];
+        var _colmodel=[
+            {name:"id",index:"id", width:80,hidden:true},
+            {name:"account",index:"account", width:80},
+            {name:"cashintegral",index:"cashintegral", width:80},
+            {name:"cashtime",index:"cashtime",width:80},
+            {name:"auditeruser",index:"auditeruser", width:80},
+            {name:"audittime",index:"audittime", width:80},
+            {name:"name",index:"cashstatus", width:80}
+        ];
+        jQuery(grid_selector).jqGrid({
+            url:grid_url,
+            shrinkToFit:true,//适用于较少字段,响应式
+            colNames:_colnames,
+            colModel:_colmodel,
+            jsonReader:{id:"id"},
+            pager : pager_selector,
+            postData: {sort: "cashtime", order: "desc"}
+        });
+    }
+    
+    /*function btnCashApply(btn) {
+        if (btn.id == "accountbalance_add") {
+            var ids = getGridXls().join(",");
+            var rows = getGridXls().length;
+            if (rows ==0) {
+                layer_alert("请选择一条数据!", "warn");
+                return;
+            }
+            if (rows > 1){
+                layer_alert("只能选择一条数据!","warn");
+                return;
+            }
+            btn.open("${ctxPath}/${code}/add/"+ids,ids);
+            return;
+        }
+    }*/
+    
+    
+    function initZtree() {
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+
+        };
+    }
+
+</script>
+<!-- 配置grid -->
+<div class="row">
+
+    <div class="col-xs-12 tb-grid">
+        <!-- 配置查询 -->
+        @ var _col=[
+        @			{name:"登录用户名",index:"account", type:"text"},
+        @           {name:"提现积分",index:"cashintegral", type:"text"},
+        @           {name:"申请时间",index:"cashtime", type:"date"},
+        @           {name:"审核时间",index:"audittime", type:"date"},
+        @           {name:"审核状态",index:"cashstatus", type:"select_107"}
+        @		   ];
+        @ include("/common/_function/_search_multi.html",{"col":_col}){}
+        <!-- 按钮组 -->
+        <div class="welljq well-sm" id="btns"></div>
+        <!-- grid -->
+        <table id="grid-table"></table>
+        <!-- 分页 -->
+        <div id="grid-pager"></div>
+    </div>
+</div>
+<!-- 引入列表页所需js -->
+@include("/common/_listscript.html"){}
+<link rel="stylesheet" href="${ctxPath}/static/zTree/css/zTreeStyle/zTreeStyle.css" />
+<script src="${ctxPath}/static/zTree/js/jquery.ztree.core.js" type="text/javascript" ></script>
+@}	

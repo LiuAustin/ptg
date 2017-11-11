@@ -1,0 +1,129 @@
+@layout("/common/_container.html"){
+<script type="text/javascript">
+	var ctx="${ctxPath}";
+	var grid_selector = "#grid-table";
+	var pager_selector = "#grid-pager";
+	var export_source = "user.oraclelist";
+	if("${func.isMySql()}" == "true"){
+		export_source = "user.mysqllist";
+	}
+	
+	$(function(){
+		initGrid();
+		initZtree();
+		initMenuBtn("btns","${code}");
+	});
+	
+	function initGrid(){
+		var grid_url = ctx+"/${code}/list";//查询列表接口
+		var _colnames=[ "序列","推荐人编号", "服务中心编号","登录用户名","登录密码","安全密码","真实姓名", "银行卡类型",
+			            "银行卡账号信息","开户行","开户行地址","手机号码","QQ号","微信号","收货人姓名","收货人地址",
+			            "选购商品","角色外键","创建时间","创建人","审核时间","审核人","用户编号","审核状态"];
+		var _colmodel=[   {name:"id",index:"id", width:80,hidden:true},
+						  {name:"recommend_num",index:"recommendNum", width:80,hidden:true},
+						  {name:"service_center",index:"serviceCenter", width:80,hidden:true},
+						  {name:"user_name",index:"username", width:50},
+						  {name:"password",index:"password", width:50,hidden:true},
+						  {name:"secure_pwd",index:"securePwd", width:150,hidden:true},
+						  {name:"real_name",index:"realName", width:50},
+						  {name:"bank_card_type",index:"bankCardType", width:120,hidden:true},
+						  {name:"bank_account",index:"bankAccount", width:100},
+						  {name:"bank_deposit",index:"bankDeposit", width:100},
+						  {name:"bank_address",index:"bankAddress", width:50,hidden:true},
+			              {name:"phone_num",index:"phoneNum", width:80},
+			              {name:"qq_num",index:"qqNum", width:80},
+			              {name:"wechat_account",index:"wechatAccount", width:80},
+			              {name:"receiver_name",index:"receiverName", width:80},
+			              {name:"delivery_address",index:"deliveryAddress", width:80},
+			              {name:"purchased_goods",index:"purchasedGoods", width:80,hidden:true},
+			              {name:"role_id",index:"roleId", width:80,hidden:true},
+			              {name:"create_time",index:"createTime", width:80},
+			              {name:"creator_id",index:"creatorId", width:80},
+			              {name:"audit_time",index:"auditTime", width:80},
+			              {name:"auditor_id",index:"auditorId", width:80},
+			              {name:"user_num",index:"userNum", width:80,hidden:true},
+			              {name:"audit_state",index:"auditState", width:80}
+
+						];
+		
+		jQuery(grid_selector).jqGrid({
+			url:grid_url,
+			//caption: "用户管理",
+		    shrinkToFit:true,//适用于较少字段,响应式
+			colNames:_colnames,
+			colModel:_colmodel, 
+			jsonReader:{id:"id"},
+			pager : pager_selector,
+			postData: { sort: "create_time", order: "desc"}
+		});
+		
+
+	}
+	
+	
+	function initZtree(){
+		var setting = {
+				data: {
+					simpleData: {
+						enable: true
+					}
+				}
+			};
+		
+		var ajax = new Ajax("${ctxPath}/user/userTreeList", function(data){
+			if(data.code === 0){
+				$.fn.zTree.init($("#zTree"), setting, data.data);
+			}
+			else{
+				layer_alert("数据加载失败", "error");
+			}
+		});
+		ajax.start();
+	}
+	
+</script>
+
+
+	<!-- 配置grid -->
+	<div class="row">
+		<!--<div class="col-sm-3">-->
+			<!--<div class="widget-box widget-color-blade">-->
+				<!--<div class="widget-header">-->
+					<!--<h4 class="widget-title lighter smaller">部门组织架构</h4>-->
+				<!--</div>-->
+
+				<!--<div class="widget-body">-->
+					<!--<div class="widget-main padding-8">-->
+						<!--<ul id="zTree" class="ztree"></ul>-->
+					<!--</div>-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+		<div class="col-xs-12 tb-grid">
+			<!-- 配置查询 -->
+			@ var _col=[
+			@		  	{name:"用户名",index:"user_name",type:"text"},
+			@		  	{name:"真实姓名",index:"real_name",type:"text"},
+			@		  	//{name:"性别",index:"toint_sex_equal",type:"select_101"},
+			@		 	//{name:"邮箱",index:"email",type:"text"},
+			@		  	{name:"手机号码",index:"phone_num",type:"text"}
+			@			//{name:"状态",index:"toint_status_equal",type:"select_901"}
+			@		   ];
+			@ include("/common/_function/_search_multi.html",{"col":_col}){}
+			<!-- 按钮组 -->
+			<div class="welljq well-sm" id="btns"></div>
+			<!-- grid -->
+			<table id="grid-table"></table>
+			<!-- 分页 -->
+			<div id="grid-pager"></div>
+		</div>
+	</div>
+	
+	<!-- 引入列表页所需js -->
+	@include("/common/_listscript.html"){}
+	<link rel="stylesheet" href="${ctxPath}/static/zTree/css/zTreeStyle/zTreeStyle.css" />
+	<script src="${ctxPath}/static/zTree/js/jquery.ztree.core.js" type="text/javascript" ></script>
+	<style type="text/css">
+		.ztree li span.button.iconPerson_ico_docu{margin-right:2px; background: url(${ctxPath}/static/zTree/img/person.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+	</style>
+@}	

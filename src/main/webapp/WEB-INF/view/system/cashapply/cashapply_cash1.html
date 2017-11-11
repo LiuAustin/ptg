@@ -1,0 +1,26 @@
+
+@layout("/common/_container.html"){
+<!-- PAGE CONTENT BEGINS -->
+<form data-url="${ctxPath}/${code}/save" method="post" class="form-horizontal" role="form">
+
+    <!-- 表单 -->
+    @ var _table="blade_cashapply";
+    @ var _col=[
+    @			  {name:"友情提示：",index:"cashintegral", type:"number",newline:true,length:3,required:"required",placeholder:"您不是主账号，无法进行积分提现操作！",disabled:"disabled"}
+    @		   ];
+    @ include("/common/_curd/_add.html",{"col":_col,"table":_table}){}
+    <!-- 按钮 -->
+
+    @ include("/common/_curd/_btn.html",{}) {}
+
+</form>
+
+<script type="text/javascript">
+    $(function(){
+        $("#btn_save").bind("click",function(){
+            setTimeout(function(){parent.initZtree();}, 499);
+        });
+    });
+</script>
+
+@}

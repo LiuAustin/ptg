@@ -1,0 +1,27 @@
+
+@layout("/common/_container.html"){
+<!-- PAGE CONTENT BEGINS -->
+<form data-url="${ctxPath}/${code}/sava" method="post" class="form-horizontal" role="form">
+
+    <!-- 表单 -->
+    @ var _table="blade_cashapply";
+    @ var _col=[
+    @			  //{name:"当前积分",index:"currentintegral",source:"accountbalance.findCurrentIntegral",type:"text",newline:true,length:3,disabled:"disabled",required:"required"},
+    @			  {name:"提现积分",index:"cashintegral", type:"number",newline:true,length:8,required:"required",placeholder:"提现积分不能超过当前积分总额且需是100的整数倍"}
+    @		   ];
+    @ include("/common/_curd/_add.html",{"col":_col,"table":_table}){}
+    <!-- 按钮 -->
+
+    @ include("/common/_curd/_btn.html",{btn_save:"确认提现"}) {}
+
+</form>
+
+<script type="text/javascript">
+    $(function(){
+        $("#btn_save").bind("click",function(){
+            setTimeout(function(){parent.initZtree();}, 499);
+        });
+    });
+</script>
+
+@}

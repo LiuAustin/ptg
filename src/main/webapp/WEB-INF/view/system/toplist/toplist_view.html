@@ -1,0 +1,23 @@
+@layout("/common/_container.html"){
+<!-- PAGE CONTENT BEGINS -->
+<form class="form-horizontal" role="form">
+
+    <!-- 表单 -->
+    @ var _col=[
+    @			  {name:"分类",index:"topcategoryName", type:"text",newline:true,length:8,required:"required"},
+    @			  {name:"标题",index:"title", type:"text",newline:true,length:8,required:"required"},
+    @			  {name:"摘要",index:"summary", type:"text",newline:true,length:8,required:"required"},
+    @			  {name:"主图",index:"picture", type:"imgupload",newline:true,length:8,required:"required"},
+    @			  {name:"发布时间",index:"contenttime", type:"laydate",newline:true,length:8},
+    @			  {name:"链接",index:"jumplink", type:"text",newline:true,length:8},
+    @			  {name:"文章来源",index:"articlesource", type:"text",newline:true,length:8,required:"required"},
+    @			  {name:"作者",index:"author", type:"text",newline:true,length:8,required:"required"},
+    @			  {name:"浏览人数",index:"looknumber", type:"number",newline:true,length:8,required:"required"},
+    @			  {name:"正文",index:"maincontent", type:"kindeditor",newline:true,length:8,required:"required"}
+    @		   ];
+    @ include("/common/_curd/_view.html",{"col":_col}){}
+
+    <!-- 按钮 -->
+    @ include("/common/_curd/_btn.html",{btn_close:"关闭"}) {}
+</form>
+@}

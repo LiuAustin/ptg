@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>拼团购后台管理系统</title>
+		<link rel="shortcut icon" href="${ctxPath}/static/style/images/favicon.ico" type="image/x-icon" />
+		<!-- 360浏览器默认选择webkit内核 -->
+		<meta name="renderer" content="webkit" />
+		<meta name="description" content="blade framework" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<script src="${ctxPath}/static/assets/js/jquery.js" type="text/javascript"></script>	
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="${ctxPath}/static/assets/css/bootstrap.css" />
+		<link rel="stylesheet" href="${ctxPath}/static/assets/css/font-awesome.css" />
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="${ctxPath}/static/assets/css/jquery-ui.css" />
+		<link rel="stylesheet" href="${ctxPath}/static/assets/css/datepicker.css" />
+		<link rel="stylesheet" href="${ctxPath}/static/assets/css/ui.jqgrid.css" />		
+		<!-- text fonts -->
+		<link rel="stylesheet" href="${ctxPath}/static/assets/css/ace-fonts.css" />
+		<link rel="stylesheet" href="${ctxPath}/static/style/css/sidebar.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="${ctxPath}/static/assets/css/${ace.theme()}" class="ace-main-stylesheet" id="main-ace-style" />
+		<!-- ace settings handler -->
+		<script src="${ctxPath}/static/assets/js/ace-extra.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="${ctxPath}/static/blade/css/blade-tab.css" type="text/css" media="screen" />
+        <!-- layer -->
+	    <script src="${ctxPath}/static/blade/js/blade-tab.js" type="text/javascript"></script>	
+	    <!-- blade通用工具类 -->
+		<script src="${ctxPath}/static/layer/layer.js" type="text/javascript"></script>
+		<script src="${ctxPath}/static/blade/js/blade-ajax.js" type="text/javascript"></script>
+
+		<link rel="stylesheet" href="${ctxPath}/static/style/css/master.css" />
+		<script type="text/javascript">
+            $(function(){
+                $('.ace-nav > li').on('click',function (e) {
+//					clearMenus();
+                })
+            });
+
+            var searchGrid = function(){};
+
+            var switchTheme = function(){
+                layer.confirm("是否切换主题？", {
+                    icon: 3,
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    var ajax = new Ajax("${ctxPath}/cache/theme", function(data){
+                        if (data.code === 0) {
+                            window.location.href="${ctxPath}/";
+                        } else {
+                            window.location.href="${ctxPath}/login";
+                        }
+                    });
+                    ajax.start();
+                }, function () {});
+            };
+
+            var openPerson = function(){
+                layer.open({
+                    type: 2,
+                    title:"${shiro.getUser().name}→个人信息编辑",
+                    area: ["800px", "400px"],
+                    fix: false, //不固定
+                    maxmin: true,
+                    content: "${ctxPath}/user/editMySelf/${shiro.getUser().id}"
+                });
+            };
+
+            var editPassword = function(){
+                layer.open({
+                    type: 2,
+                    title:"${shiro.getUser().name}→密码修改",
+                    area: ["250", "420px"],
+                    fix: false, //不固定
+                    maxmin: true,
+                    content: "${ctxPath}/user/editPassword/${shiro.getUser().id}"
+                });
+            };
+
+            var logout = function(){
+                layer.confirm("是否确定退出？", {
+                    icon: 3,
+                    btn: ["确定", "取消"] //按钮
+                }, function () {
+                    window.location.href="${ctxPath}/logout";
+                }, function () {
+                    //layer.msg('已取消');
+                });
+            };
+
+            var openMoreNotice = function () {
+                window.top.addTabs({
+                    id: 'tab_notice',
+                    title: "全部通知",
+                    url: "${ctxPath}/notice/",
+                    icon: 'fa fa-eye bigger-120',
+                    close: true
+                });
+            };
+            var openMoreTask = function () {
+                window.top.addTabs({
+                    id: 'tab_project',
+                    title: "全部项目",
+                    url: "${ctxPath}/project/",
+                    icon: 'fa fa-eye bigger-120',
+                    close: true
+                });
+            };
+
+            var openNotice = function(name,id){
+                window.top.addTabs({
+                    id: 'view_notify_'+id,
+                    title: "公告:" + name,
+                    url: "${ctxPath}/notice/view/"+id,
+                    icon: 'fa fa-eye bigger-120',
+                    close: true
+                });
+
+            };
+            var openTask = function(name,id){
+                window.top.addTabs({
+                    id: 'btn_project_view_'+id,
+                    title: "项目:" + name,
+                    url: "${ctxPath}/project/view/"+id,
+                    icon: 'fa fa-eye bigger-120',
+                    close: true
+                });
+            };
+		</script>
+
+
+	</head>
+
+	<body class="no-skin">
+		<div id="navbar" class="navbar navbar-default">
+			<div class="navbar-container" id="navbar-container">
+				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+					<span class="sr-only">Toggle sidebar</span>
+
+					<span class="icon-bar"></span>
+
+					<span class="icon-bar"></span>
+
+					<span class="icon-bar"></span>
+				</button>
+
+				<div class="navbar-header pull-left">
+					<a href="#" class="navbar-brand">
+
+						<small>
+							<img style="width: 20px; height: 21px " src="${ctxPath}/static/style/images/jjzgh_logo.png"/>
+							拼团购后台管理系统
+						</small>
+					</a>
+				</div>
+
+
+
+				<div class="navbar-buttons navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+
+						<master:notify  userId="${shiro.getUser().id}"/>
+
+						<master:task  userId="${shiro.getUser().id}"/>
+
+						<li class="dropdown-modal">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle" style="color:#fff">
+								<img class="nav-user-photo" src="static\assets\images\user.png" alt="Jason's Photo" />
+								<span class="user-info">
+									<small>欢迎你,</small>
+									${shiro.getUser().name}
+								</span>
+
+								<i class="ace-icon fa fa-caret-down"></i>
+							</a>
+
+							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+								<li>
+									<a href="javascript:switchTheme();">
+										<i class="light-black ace-icon fa fa-paint-brush" style="width:15px;"></i>
+										<span style="color:#576373">主题切换</span>
+									</a>
+								</li>
+
+								<!--<li>
+									<a href="javascript:openPerson();">
+										<i class="ace-icon fa fa-user"></i>
+										修改个人信息
+									</a>
+								</li>-->
+
+								<li>
+									<a href="javascript:editPassword();">
+										<i class="ace-icon fa fa-lock"></i>
+										修改个人密码
+									</a>
+								</li>
+								<li class="divider"></li>
+
+								<li>
+									<a href="javascript:logout();">
+										<i class="ace-icon fa fa-power-off"></i>
+										退出
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+
+
+			</div>
+		</div>

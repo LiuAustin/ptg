@@ -1,0 +1,19 @@
+@layout("/common/_container.html"){
+<!-- PAGE CONTENT BEGINS -->
+<form class="form-horizontal" role="form">
+
+    <!-- 表单 -->
+    @ var _col=[
+    @			  {name:"登录用户名",index:"account", type:"text",newline:true,length:3},
+    @			  {name:"提现积分",index:"cashintegral", type:"text",newline:false,length:3},
+    @			  {name:"申请时间",index:"cashtime", type:"date",newline:true,length:3},
+    @			  {name:"审核人",index:"auditeruser", type:"text",newline:false,length:3},
+    @			  {name:"审核时间",index:"audittime", type:"date",newline:true,length:3},
+    @			  {name:"审核状态",index:"cashstatusName", type:"text",newline:false,length:3}
+    @		   ];
+    @ include("/common/_curd/_view.html",{"col":_col}){}
+
+    <!-- 按钮 -->
+    @ include("/common/_curd/_btn.html",{btn_close:"关闭"}) {}
+</form>
+@}

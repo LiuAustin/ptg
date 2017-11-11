@@ -1,0 +1,87 @@
+@layout("/common/_container.html"){
+<script type="text/javascript">
+    var ctx="${ctxPath}";
+    var grid_selector = "#grid-table";
+    var pager_selector = "#grid-pager";
+    $(function(){
+        initGrid();
+        initMenuBtn("btns","${code}");
+    });
+    /**
+     *用于执行按钮加载事件结束后操作的ajax请求(否则会导致回调覆盖,也可以使用 async:false)
+     */
+    function doOther(){
+        initZtree();
+    }
+    function initGrid(){
+        var grid_url = ctx+"/${code}/list";//查询列表接口
+        var _colnames=[ "序列","发布时间","分类","标题","摘要","正文","主图","文章来源","作者","浏览人数","链接","创建人","创建时间","修改人","修改时间"];
+        var _colmodel=[     {name:"id",index:"id", width:70,hidden:true},
+                            {name:"contenttime",index:"contenttime",width:100,align:"left"},
+                            {name:"name",index:"name", width:70},
+                            {name:"title",index:"title", width:80,align:"left"},
+                            {name:"summary",index:"summary", width:80,align:"left"},
+                            {name:"maincontent",index:"maincontent", width:80,align:"left",hidden:true},
+                            {name:"picture",index:"picture", width:70,hidden:true},
+                            {name:"articlesource",index:"articlesource", width:70,align:"left"},
+                            {name:"author",index:"author", width:70,align:"left"},
+                            {name:"looknumber",index:"looknumber", width:70,align:"left"},
+                            {name:"jumplink",index:"jumplink", width:80,align:"left",hidden:true},
+                            {name:"createUser",index:"creater", width:70,align:"left"},
+                            {name:"createtime",index:"createtime", width:80,align:"left"},
+                            {name:"updateUser",index:"updater", width:70},
+                            {name:"updatetime",index:"updatetime", width:80,align:"left"}
+                          ];
+        jQuery(grid_selector).jqGrid({
+            url:grid_url,
+            shrinkToFit:true,//适用于较少字段,响应式
+            colNames:_colnames,
+            colModel:_colmodel,
+            jsonReader:{id:"id"},
+            pager : pager_selector,
+            postData: {sort: "createtime", order: "desc"}
+        });
+    }
+    function initZtree() {
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+//            callback: {
+//                beforeClick: zTreeBeforeClick
+//            }
+        };
+    }
+
+
+</script>
+<!-- 配置grid -->
+<div class="row">
+
+    <div class="col-xs-12 tb-grid">
+
+        <!-- 配置查询 -->
+        @ var _col=[
+        @           {name:"分类",index:"toint_legalcategory_equal", type:"select_118"},
+        @			{name:"创建时间(开始)",index:"createtime_gt", type:"date"},
+        @           {name:"创建时间(结束)",index:"createtime_lt", type:"date"},
+        @			{name:"标题",index:"title", type:"text"},
+        @			{name:"创建人",index:"toint_creater_equal", type:"selectUser"}
+        @           //{name:"创建人",index:"toint_creater_equal",id:"creater",type:"select2",source:"user.findUserCombo"}
+        @		   ];
+        @ include("/common/_function/_search_multi.html",{"col":_col}){}
+        <!-- 按钮组 -->
+        <div class="welljq well-sm" id="btns"></div>
+        <!-- grid -->
+        <table id="grid-table"></table>
+        <!-- 分页 -->
+        <div id="grid-pager"></div>
+    </div>
+</div>
+<!-- 引入列表页所需js -->
+@include("/common/_listscript.html"){}
+<link rel="stylesheet" href="${ctxPath}/static/zTree/css/zTreeStyle/zTreeStyle.css" />
+<script src="${ctxPath}/static/zTree/js/jquery.ztree.core.js" type="text/javascript" ></script>
+@}	

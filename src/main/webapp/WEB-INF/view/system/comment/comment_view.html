@@ -1,0 +1,14 @@
+@layout("/common/_container.html"){
+<!-- PAGE CONTENT BEGINS -->
+<form class="form-horizontal" role="form">
+    <!-- 表单 -->
+    @ var _col=[
+    @			  {name:"评价内容",index:"comment_content", type:"text",newline:true,length:8,required:"required"},
+    @			  {name:"评价回复内容",index:"comment_content_t", type:"text",newline:true,length:8,required:"required"}
+    @		   ];
+    @ include("/common/_curd/_view.html",{"col":_col}){}
+
+    <!-- 按钮 -->
+    @ include("/common/_curd/_btn.html",{btn_close:"关闭"}) {}
+</form>
+@}

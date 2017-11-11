@@ -1,0 +1,20 @@
+@layout("/common/_container.html"){
+<!-- PAGE CONTENT BEGINS -->
+<form class="form-horizontal" role="form">
+
+    <!-- 表单 -->
+    @ var _col=[
+    @			  {name:"登录用户名",index:"account", type:"text",newline:true,length:3},
+    @			  {name:"手机号",index:"phone", type:"text",newline:false,length:3},
+    @			  {name:"推荐人",index:"createruser", type:"text",newline:true,length:3},
+    @			  {name:"历史积分",index:"newhistoryintegral", type:"text",newline:false,length:3},
+    @			  {name:"已提交提现申请积分",index:"integral", type:"text",newline:true,length:3},
+    @			  {name:"当前积分",index:"currentintegral", type:"text",newline:false,length:3},
+    @			  {name:"购物券",index:"vouchers", type:"text",newline:true,length:8}
+    @		   ];
+    @ include("/common/_curd/_view.html",{"col":_col}){}
+
+    <!-- 按钮 -->
+    @ include("/common/_curd/_btn.html",{btn_close:"关闭"}) {}
+</form>
+@}

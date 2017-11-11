@@ -1,0 +1,103 @@
+@layout("/common/_container.html"){
+<!-- PAGE CONTENT BEGINS -->
+<form class="form-horizontal" role="form">
+	<div class="space-4"></div>
+	<!-- #section:elements.form -->
+	<div class="form-group">
+		<input type="hidden" name="BLADE_USER.ID" value="${user.id!}"/>
+		<label class="col-sm-2 control-label no-padding-right" > 登录用户名 </label>
+
+		<div class="col-sm-3">
+			<input type="text" name="BLADE_USER.ACCOUNT" disabled value="${user.account!}" placeholder="暂无登录用户名" class="form-control" />
+		</div>
+
+		<label class="col-sm-2 control-label no-padding-right" > 真实姓名 </label>
+		<div class="col-sm-3">
+			<input type="text" name="BLADE_USER.name" disabled value="${user.name!}" placeholder="暂无真实姓名" class="form-control" />
+		</div>
+
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label no-padding-right" > 手机号 </label>
+
+		<div class="col-sm-3">
+			<input type="text"   name="BLADE_USER.phone" disabled value="${user.phone!}" placeholder="暂无手机号" class="form-control" />
+		</div>
+
+		<label class="col-sm-2 control-label no-padding-right" > 银行卡类型 </label>
+		<div class="col-sm-3">
+			<input type="text" name="BLADE_USER.bankCardType" disabled value="${user.bankCardType!}" placeholder="暂无银行卡类型" class="form-control" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label no-padding-right" > 银行卡账号信息 </label>
+
+		<div class="col-sm-3">
+			<input type="text"   name="BLADE_USER.bankaccount" disabled value="${user.bankaccount!}" placeholder="暂无银行卡账号信息" class="form-control" />
+		</div>
+
+		<label class="col-sm-2 control-label no-padding-right" > 开户行 </label>
+		<div class="col-sm-3">
+			<input type="text" name="BLADE_USER.bankDeposit" disabled value="${user.bankDeposit!}" placeholder="暂无开户行" class="form-control" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label no-padding-right" > 开户行地址 </label>
+
+		<div class="col-sm-3">
+			<input type="text"   name="BLADE_USER.bankaddress" disabled value="${user.bankaddress!}" placeholder="暂无开户行地址" class="form-control" />
+		</div>
+
+		<label class="col-sm-2 control-label no-padding-right" > QQ号 </label>
+		<div class="col-sm-3">
+			<input type="text" name="BLADE_USER.qqnum" disabled value="${user.qqnum!}" placeholder="暂无QQ号" class="form-control" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label no-padding-right" > 微信号 </label>
+
+		<div class="col-sm-3">
+			<input type="text"   name="BLADE_USER.wechataccount" disabled value="${user.wechataccount!}" placeholder="暂无微信号" class="form-control" />
+		</div>
+
+		<label class="col-sm-2 control-label no-padding-right" > 收货人姓名 </label>
+		<div class="col-sm-3">
+			<input type="text" name="BLADE_USER.receivername" disabled value="${user.receivername!}" placeholder="暂无收货人姓名" class="form-control" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label no-padding-right" > 收货人地址 </label>
+
+		<div class="col-sm-3">
+			<input type="text"   name="BLADE_USER.deliveryaddress" disabled value="${user.deliveryaddress!}" placeholder="暂无收货人地址" class="form-control" />
+		</div>
+
+		<label class="col-sm-2 control-label no-padding-right" > 创建人 </label>
+		<div class="col-sm-3">
+			<input type="text" name="BLADE_USER.createruser" disabled value="${user.createruser!}" placeholder="暂无创建人" class="form-control" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label no-padding-right" > 创建时间 </label>
+
+		<div class="col-sm-3">
+			<input type="text"   name="BLADE_USER.createtime" disabled value="${func.formatTime(user.createtime!)}" placeholder="暂无创建时间" class="form-control" />
+		</div>
+
+		<label class="col-sm-2 control-label no-padding-right" > 审核状态 </label>
+		<div class="col-sm-3">
+			<input type="text" name="BLADE_USER.statusName" disabled value="${user.statusName!}" placeholder="暂无审核状态" class="form-control" />
+		</div>
+	</div>
+
+	<div class="space-4"></div>
+	<!-- 按钮 -->
+	@ include("/common/_curd/_btn.html",{btn_close:"关闭"}) {}
+</form>
+@}

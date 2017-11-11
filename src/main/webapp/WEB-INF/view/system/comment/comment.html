@@ -1,0 +1,74 @@
+@layout("/common/_container.html"){
+<script type="text/javascript">
+    var ctx="${ctxPath}";
+    var grid_selector = "#grid-table";
+    var pager_selector = "#grid-pager";
+    $(function(){
+        initGrid();
+        initMenuBtn("btns","${code}");
+    });
+    /**
+     *用于执行按钮加载事件结束后操作的ajax请求(否则会导致回调覆盖,也可以使用 async:false)
+     */
+    function doOther(){
+        initZtree();
+    }
+    function initGrid(){
+        var grid_url = ctx+"/${code}/list";//查询列表接口
+        var _colnames=[ "序列","评价内容","评价人昵称"
+            ,"审核状态", "评价回复内容"
+        ];
+        var _colmodel=[
+            {name:"id",index:"id", width:80,hidden:true},
+            {name:"comment_content",index:"comment_content", width:100},
+            {name:"comment_uid",index:"comment_uid", width:100},
+            {name:"name",index:"name",width:80},
+            {name:"comment_content_t",index:"comment_content_t", width:80}
+        ];
+        jQuery(grid_selector).jqGrid({
+            url:grid_url,
+            shrinkToFit:true,//适用于较少字段,响应式
+            colNames:_colnames,
+            colModel:_colmodel,
+            jsonReader:{id:"id"},
+            pager : pager_selector,
+            postData: {sort: "comment_state asc,comment_uid", order: "desc"}
+        });
+    }
+    function initZtree() {
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+
+        };
+    }
+
+</script>
+<!-- 配置grid -->
+<div class="row">
+
+    <div class="col-xs-12 tb-grid">
+        <!-- 配置查询 -->
+        @ var _col=[
+        @			{name:"评价内容",index:"comment_content", type:"text"},
+        @           {name:"评价人昵称",index:"comment_uid", type:"text"},
+        @           {name:"审核状态",index:"comment_state", type:"select_903"},
+        @           {name:"回复内容",index:"comment_content_t", type:"text"}
+        @		   ];
+        @ include("/common/_function/_search.html",{"col":_col}){}
+        <!-- 按钮组 -->
+        <div class="welljq well-sm" id="btns"></div>
+        <!-- grid -->
+        <table id="grid-table"></table>
+        <!-- 分页 -->
+        <div id="grid-pager"></div>
+    </div>
+</div>
+<!-- 引入列表页所需js -->
+@include("/common/_listscript.html"){}
+<link rel="stylesheet" href="${ctxPath}/static/zTree/css/zTreeStyle/zTreeStyle.css" />
+<script src="${ctxPath}/static/zTree/js/jquery.ztree.core.js" type="text/javascript" ></script>
+@}	
